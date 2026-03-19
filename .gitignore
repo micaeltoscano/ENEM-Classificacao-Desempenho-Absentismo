@@ -2,3 +2,6 @@
 dados limpos/
 dadosENEM_2019-2022_parquet/
 enem_parquet/
+Presenca ENEM/*.parquet
+Nota\ ENEM/*.parquet
+Nota\ ENEM/Dados\ Limpos/
