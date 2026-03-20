@@ -5,3 +5,5 @@ enem_parquet/
 Presenca ENEM/*.parquet
 Nota\ ENEM/*.parquet
 Nota\ ENEM/Dados\ Limpos/
+acertos_erros_2019.parquet
+acertos_erros_dados_socioeconomicos2019.parquet
