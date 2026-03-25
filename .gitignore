@@ -5,3 +5,5 @@ enem_parquet/
 arquivos/
 .venv/ 
 .DS_Store
+data/
+/__pycache__
