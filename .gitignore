@@ -7,3 +7,4 @@ arquivos/
 .DS_Store
 data/
 /__pycache__
+venv/
