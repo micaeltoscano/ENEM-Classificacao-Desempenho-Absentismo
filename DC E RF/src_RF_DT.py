@@ -12,7 +12,7 @@ from sklearn.metrics import RocCurveDisplay
 from matplotlib import pyplot as plt
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def pre_processor_rf_dt(df, objetivo, n_samples = 1_000_000):
+def pre_processor_rf_dt(df, objetivo, n_samples = 50_000):
 
     df = df.sample(n_samples, random_state=42)
 
