@@ -52,7 +52,6 @@ def pre_processor_rf_dt(df, objetivo, n_samples = 50_000):
                      columns=[
                      'NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 
                      'NU_NOTA_MT', 'NU_NOTA_REDACAO', 
-                     'TP_LOCALIZACAO_ESC', 'TP_SIT_FUNC_ESC',
                      'TP_PRESENCA_LC', 'TP_PRESENCA_CH',
                      'TP_PRESENCA_CN', 'TP_PRESENCA_MT']
                       + colunas_q_originais)
