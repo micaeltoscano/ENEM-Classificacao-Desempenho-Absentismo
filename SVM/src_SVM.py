@@ -24,9 +24,6 @@ def pre_processor_SVM(df, objetivo, n_samples = 50000):
 
         df['MEDIA'] = (df['NU_NOTA_CN'] + df['NU_NOTA_CH'] + df['NU_NOTA_MT']+  df['NU_NOTA_LC'] + df['NU_NOTA_REDACAO']) / 5
 
-        df['CLASSE'] = df.groupby('NU_ANO')['MEDIA'].transform(lambda x: pd.qcut(x, q=2, labels=[0,1])).astype('Int64')
-
-        df['CLASSE'] = df['CLASSE'].astype(int)
 
     df = df[df['TP_ESCOLA'].isin([2,3])]
     df = df[df['TP_ESTADO_CIVIL'].isin([1,2,3,4])]
