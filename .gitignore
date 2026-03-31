@@ -26,3 +26,7 @@ Notebooks Redes Neurais/__pycache__/src.cpython-311.pyc
 Notebooks Redes Neurais/__pycache__/src_RN.cpython-312.pyc
 RN/__pycache__/src.cpython-311.pyc
 RN/__pycache__/src.cpython-311.pyc
+RN/__pycache__/src_RN.cpython-311.pyc
+ml_utils.egg-info/
+*.pyc
+ml_utils/config.py
