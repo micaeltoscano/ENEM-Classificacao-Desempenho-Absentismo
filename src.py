@@ -20,11 +20,10 @@ def pre_processor_inferencia(df):
                       'ocupacao_mae', 'renda_familiar', 'score_bens_servicos', 'score_bens_dom', 'score_equipamentos', 'score_estrutura_casa', 'acesso_computador', 'acesso_internet']
 
     return df[colunas_modelo]
-
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def transformar_colunas_ohe(df):
-    df = df.copy()
-
-    mapa_colunas = {
+    
+    categorias = {
         'Q001': list('ABCDEFGH'),
         'Q002': list('ABCDEFGH'),
         'Q003': list('ABCDEF'),
@@ -50,14 +49,16 @@ def transformar_colunas_ohe(df):
         'Q024': list('ABCDE'),
         'Q025': list('AB'),
     }
-
-    novas_colunas = {}
-    for col, categorias in mapa_colunas.items():
-        for cat in categorias:
-            novas_colunas[f'{col}_{cat}'] = (df[col] == cat).astype(int)
-        df = df.drop(columns=[col], errors='ignore')
-
-    return pd.concat([df, pd.DataFrame(novas_colunas, index=df.index)], axis=1)
+    
+    colunas = list(categorias.keys())
+    df = df.dropna(subset=colunas)
+    
+    for col, cats in categorias.items():
+        df[col] = pd.Categorical(df[col], categories=cats)
+    
+    df = pd.get_dummies(df, columns=colunas, prefix=colunas, dtype=int)
+    
+    return df
 
 def agregar_questionario(df):
     df = df.copy()
