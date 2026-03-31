@@ -231,7 +231,7 @@ def pre_processor(X_train):
     preprocessor = ColumnTransformer(transformers=[
         ('nominal',      OneHotEncoder(handle_unknown='ignore', sparse_output=False), nominais),
         ('ordinal',      OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1), ordinais),
-        ('questionario', OrdinalEncoder(categories=categorias_quest, handle_unknown='use_encoded_value', unknown_value=-1), questionario),
+        ('questionario',  OneHotEncoder(handle_unknown='ignore', sparse_output=False), questionario),
         ('binaria',      'passthrough', binarias),
     ], remainder='drop')
 
@@ -265,23 +265,3 @@ def num_max_neuronio(X, d):
     CT = len(X)
     return int((CT - 10)/(10 * (d + 2)))
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def dt_amostras_maiores():
-    
-    df = preparar_dados(df, objetivo = 'Desempenho', n_samples = 50_000)
-
-    X = df.drop(columns=['MEDIA', 'FALTOU'])
-    y_media = df['MEDIA']
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y_media, test_size=0.2, random_state=42)
-
-    quantil = y_train.quantile(0.5)
-    y_train = (y_train >= quantil).astype(int)
-    y_test  = (y_test  >= quantil).astype(int)
-
-    clf = DecisionTreeClassifier(**CV_clf.best_params_)
-    clf.fit(X_train, y_train)
-
-    print('Ein: %0.4f' % (1 - accuracy_score(y_train, CV_clf.predict(X_train))))
-    print('Eval: %0.4f' % (1 - accuracy_score(y_test, CV_clf.predict(X_test))))
-
-    print(classification_report(y_test, clf.predict(X_test)))
