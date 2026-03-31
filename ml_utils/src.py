@@ -89,7 +89,7 @@ def agregar_questionario(df):
 
     return df
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def preparar_dados(df, objetivo, n_samples = 50_000):
+def preparar_dados_forests(df, objetivo, modelo, n_samples = 50_000):
 
     df = df.sample(n_samples, random_state=42)
 
@@ -130,6 +130,48 @@ def preparar_dados(df, objetivo, n_samples = 50_000):
 
     return df
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+def preparar_dados(df, objetivo, modelo, n_samples = 50_000):
+
+    df = df.sample(n_samples, random_state=42)
+
+    FALTOU = (
+    (df['TP_PRESENCA_CH'] != 1) | 
+    (df['TP_PRESENCA_LC'] != 1) | 
+    (df['TP_PRESENCA_CN'] != 1) | 
+    (df['TP_PRESENCA_MT'] != 1)
+)
+
+    df['FALTOU'] = FALTOU.astype(int)
+
+    if objetivo == 'Desempenho':
+
+        df = df[df['FALTOU'] == 0]
+
+        df['MEDIA'] = (df['NU_NOTA_CN'] + df['NU_NOTA_CH'] + df['NU_NOTA_MT']+  df['NU_NOTA_LC'] + df['NU_NOTA_REDACAO']) / 5
+
+        df['CLASSE'] = df.groupby('NU_ANO')['MEDIA'].transform(lambda x: pd.qcut(x, q=2, labels=[0,1])).astype('Int64')
+
+        df['CLASSE'] = df['CLASSE'].astype(int)
+
+    df = df[df['TP_ESCOLA'].isin([2,3])]
+    df = df[df['TP_ESTADO_CIVIL'].isin([1,2,3,4])]
+
+    df['TP_LOCALIZACAO_ESC'] = df['TP_LOCALIZACAO_ESC'].fillna(0)
+    df['TP_DEPENDENCIA_ADM_ESC'] = df['TP_DEPENDENCIA_ADM_ESC'].fillna(0)
+    df['TP_SIT_FUNC_ESC'] = df['TP_SIT_FUNC_ESC'].fillna(0)
+
+    df = df.dropna(subset=[f'Q{i:03d}' for i in range(1, 26)])
+
+    df = df.drop(
+                     columns=[
+                     'NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 
+                     'NU_NOTA_MT', 'NU_NOTA_REDACAO',
+                     'TP_PRESENCA_LC', 'TP_PRESENCA_CH',
+                     'TP_PRESENCA_CN', 'TP_PRESENCA_MT']
+                     )
+
+    return df
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def buscar_hiperparametros_rf(x_train, y_train, n_iter=10, cv=5, scoring='f1_weighted', random_state=42):
     
     max_depth = [int(x) for x in np.linspace(start=10, stop=40, num=4)]
