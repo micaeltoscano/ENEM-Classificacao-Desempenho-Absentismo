@@ -89,7 +89,7 @@ def agregar_questionario(df):
 
     return df
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def preparar_dados_forests(df, objetivo, modelo, n_samples = 50_000):
+def preparar_dados_forests(df, objetivo, n_samples = 50_000):
 
     df = df.sample(n_samples, random_state=42)
 
@@ -130,7 +130,7 @@ def preparar_dados_forests(df, objetivo, modelo, n_samples = 50_000):
 
     return df
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def preparar_dados(df, objetivo, modelo, n_samples = 50_000):
+def preparar_dados(df, objetivo, n_samples = 50_000):
 
     df = df.sample(n_samples, random_state=42)
 
